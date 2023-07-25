@@ -8,8 +8,6 @@ class ConsumList(ModelViewSet):
     queryset = ConsumUser.objects.all()
     serializer_class = ConsumerSerializer
     
-class ConsumDetail(ModelViewSet):
+class ConsumerDetail(ModelViewSet):
     queryset = ConsumUser.objects.all()
     serializer_class = ConsumerSerializer
-    
-    
