@@ -1,0 +1,3 @@
+version 1.0 
+	ㄴ posts , accounts , consumers 병합 및 디버깅 
+	  CRUD 완료 ( 키 설정 안해둠 )
