@@ -11,15 +11,15 @@ from account.serializers import UserSerializer
 from rest_framework import viewsets
 from config.settings import SECRET_KEY
 from .models import UserModel
+from rest_framework.permissions import IsAuthenticated
 
 User = get_user_model()
 
 
-class UserList(viewsets.ReadOnlyModelViewSet):
-    def get(self, request):
-        queryset = User.objects.all()
-        serializer = UserSerializer(queryset, many=True)
-        return JsonResponse(serializer.data, safe=False)
+class UserListView(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
 
 
 class KakaoSignCallbackView(APIView):
@@ -67,6 +67,7 @@ class KakaoSignCallbackView(APIView):
             # 기존 사용자의 경우, JWT 토큰을 생성하고 응답에 포함합니다.
             token = self._create_jwt(user_info.id)
             return JsonResponse({"id": user_info.id, "token": token, "exist": True})
+
         except UserModel.DoesNotExist:
             # 사용자 정보를 찾을 수 없는 경우 새 사용자를 생성합니다.
             kakao_user = self._create_kakao_user(kakao_response)

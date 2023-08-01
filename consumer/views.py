@@ -1,8 +1,11 @@
+import json
 from django.http import JsonResponse
 from rest_framework.views import APIView
+from rest_framework.response import Response
 from rest_framework import status
 from .models import Consum
 from .serializers import ConsumerSerializer
+
 
 # Create your views here.
 class ConsumList(APIView):
@@ -15,8 +18,12 @@ class ConsumList(APIView):
         serializer = ConsumerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED, safe=False)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
+            return JsonResponse(
+                serializer.data, status=status.HTTP_201_CREATED, safe=False
+            )
+        return JsonResponse(
+            serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False
+        )
 
 
 class ConsumDetail(APIView):
@@ -41,11 +48,13 @@ class ConsumDetail(APIView):
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, safe=False)
-        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
+        return JsonResponse(
+            serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False
+        )
 
-    def delete(self, request, pk):
-        consum_user = self.get_object(pk)
-        if not consum_user:
-            return JsonResponse(status=status.HTTP_404_NOT_FOUND, safe=False)
-        consum_user.delete()
-        return JsonResponse(status=status.HTTP_204_NO_CONTENT, safe=False)
+    def delete(self, request, pk, format=None):
+        consum_obj = self.get_object(pk)
+        if not consum_obj:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        consum_obj.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

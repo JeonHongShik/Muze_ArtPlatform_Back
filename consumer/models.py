@@ -7,6 +7,12 @@ class Consum(models.Model):
     author = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, related_name="consum_user"
     )
+    call = models.CharField(max_length=254)  #
+
+    profile = models.URLField(
+        null=True,
+        blank=True,
+    )
 
     age = models.PositiveIntegerField(blank=False, null=False, default=17)  # 나이
 
