@@ -24,9 +24,9 @@ class UserListView(viewsets.ReadOnlyModelViewSet):
 
 class KakaoSignCallbackView(APIView):
     # JWT 토큰을 생성하는 함수
-    @staticmethod
-    def _create_jwt(user_id):
-        return jwt.encode({"id": user_id}, SECRET_KEY, algorithm="HS256")
+    # @staticmethod
+    # def _create_jwt(user_id):
+    #     return jwt.encode({"id": user_id}, SECRET_KEY, algorithm="HS256")
 
     # 카카오 회원 정보를 받아와서 새로운 User 인스턴스를 생성하는 함수
     @staticmethod
@@ -65,7 +65,7 @@ class KakaoSignCallbackView(APIView):
             # 기존 디비에 있는 사용자 정보를 찾습니다.
             user_info = UserModel.objects.get(id=kakao_response["id"])
             # 기존 사용자의 경우, JWT 토큰을 생성하고 응답에 포함합니다.
-            token = self._create_jwt(user_info.id)
+            # token = self._create_jwt(user_info.id)
             return JsonResponse({"id": user_info.id, "token": token, "exist": True})
 
         except UserModel.DoesNotExist:
@@ -73,7 +73,7 @@ class KakaoSignCallbackView(APIView):
             kakao_user = self._create_kakao_user(kakao_response)
             kakao_user.save()
             # 새 사용자의 경우, JWT 토큰을 생성하고 응답에 포함합니다.
-            token = self._create_jwt(kakao_user.id)
+            # token = self._create_jwt(kakao_user.id)
             return JsonResponse(
                 {"id": kakao_user.id, "token": token, "exist": False}, status=201
             )
