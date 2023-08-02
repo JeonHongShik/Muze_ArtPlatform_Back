@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from posts.models import PerformancePost
+from post.models import PerformancePost
 from . import models
 
 

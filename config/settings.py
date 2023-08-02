@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os, json
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +22,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-c6y5p(ia(a-9z6xd&4sl^r4av(q+0(-0!n#a-c7cj^)04zzm#q"
+secret_file = os.path.join(BASE_DIR, "secrets.json")
+
+with open(secret_file) as f:
+    secret_file = json.loads(f.read())
+
+
+def get_scrt(setting, secret_file=secret_file):
+    try:
+        return secret_file[setting]
+    except KeyError:
+        error_msg = "Set the {} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = get_scrt("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,15 +53,18 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # 추가한 앱
-    "accounts",
-    "consumers",
-    "posts",
+    # 추가한 APP
+    "account",
+    "consumer",
+    "post",
     "bookmark",
-    # 추가한 프레임워크
+    # 추가한 FRAMEWORK
     "rest_framework",
-    "rest_framework.authtoken",
+    "requests",
+    "jwt",
 ]
+
+AUTH_USER_MODEL = "account.UserModel"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -129,12 +148,3 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.TokenAuthentication",
-    ],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-    ],
-}

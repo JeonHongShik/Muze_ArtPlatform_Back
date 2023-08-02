@@ -1,12 +1,12 @@
 from django.db import models
-from django.contrib.auth.models import User
-from posts.models import PerformancePost
+from django.conf import settings
+from post.models import PerformancePost
 from datetime import datetime
 
 
 class Bookmark(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="bookmark"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="bookmark"
     )  # 사용자 외래키 필드를 정의하고, 연관 이름을 "bookmark"으로 표시합니다
     post = models.ForeignKey(  # 포스트 외래키 필드를 정의합니다
         PerformancePost,
