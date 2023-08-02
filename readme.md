@@ -7,6 +7,12 @@ version 2.1
 
 
 
+
+수정해야할 사항
+1. profile 필드 URL >> Image 필드로 변경하기
+2. 
+
+
 python설치 확인
 python -m venv (가상환경이름)
 source (가상환경이름)/scripts/activate

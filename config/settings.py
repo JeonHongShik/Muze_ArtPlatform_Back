@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os, json
 from django.core.exceptions import ImproperlyConfigured
@@ -60,10 +61,25 @@ INSTALLED_APPS = [
     # 추가한 FRAMEWORK
     "rest_framework",
     "requests",
-    "jwt",
+    # "rest_framework_simplejwt",
 ]
 
+# REST_FRAMEWORK = {
+#     "DEFAULT_AUTHENTICATION_CLASSES": (
+#         "rest_framework_simplejwt.authentication.JWTAuthentication",
+#     )
+# }
+
+# SIMPLE_JWT = {
+#     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+#     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+#     "SIGNING_KEY": SECRET_KEY,
+#     "ARLGORITHM": "HS256",
+#     "AUTH_HEADER_TYPES": ("JWT",),
+# }
+
 AUTH_USER_MODEL = "account.UserModel"
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
