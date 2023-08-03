@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\yeoun\OneDrive\바탕 화면\Muze_ArtPlatform_Back\venv"
+VIRTUAL_ENV="C:\Users\whopp\OneDrive\Desktop\Muze_ArtPlatform_Back\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
