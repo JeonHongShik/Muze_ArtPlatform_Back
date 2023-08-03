@@ -10,7 +10,8 @@ urlpatterns = [
     path(
         "userchange/",
         views.UserListView.as_view(),
-    ),  # 받아온 유저 정보 변경주소
+    ),
+    # 받아온 유저 정보 변경주소
     ##임시로 만든 url (토큰 생성)
     # path("token/", TokenObtainPairView.as_view()),
     # path("token/refresh/", TokenRefreshView.as_view()),

@@ -11,6 +11,9 @@ from rest_framework import viewsets
 from .models import UserModel
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
 
 User = get_user_model()
 
@@ -21,9 +24,12 @@ class UserListView(APIView):
         queryset = User.objects.all()
         serializer = UserSerializer(queryset, many=True)
         return JsonResponse(serializer.data, safe=False)
-    
+
     @method_decorator(csrf_exempt, name="dispatch")
     def post(self, request):
+        profile = request.FILES.get("media/profile")
+        data = request.data.copy()
+        data["media/profile"] = profile
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -31,7 +37,7 @@ class UserListView(APIView):
                 serializer.data, safe=False, status=status.HTTP_201_CREATED
             )
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     @method_decorator(csrf_exempt, name="dispatch")
     def put(self, request):
         try:
@@ -41,12 +47,20 @@ class UserListView(APIView):
                 {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        serializer = UserSerializer(user, data=request.data, partial=True)
+        if "image" in request.FILES:
+            # 이미지를 처리하는 추가 로직
+            image = request.FILES["media/profile"]
+            data = request.data.copy()
+            data["media/profile"] = image
+            serializer = UserSerializer(user, data=data, partial=True)
+        else:
+            serializer = UserSerializer(user, data=request.data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, safe=False)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
     @method_decorator(csrf_exempt, name="dispatch")
     def delete(self, request):
         try:
@@ -113,7 +127,6 @@ class KakaoSignCallbackView(APIView):
             kakao_user.create()  # create() : 객체 생성과 저장을 동시에함
             return JsonResponse({"id": kakao_user.id, "exist": False}, status=201)
             # 새 사용자는 응답에 ID와 "exist": False를 포함합니다.
-
 
 
 """토큰 생성해서 JWT"""
