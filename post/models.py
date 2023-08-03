@@ -19,10 +19,7 @@ class PerformancePost(models.Model):
     deadline = models.CharField(max_length=50)  # 모집기한
     date = models.CharField(max_length=50)  # 공연일시
     location = models.CharField(max_length=300)  # 공연장소
-    profile = models.URLField(  # 이미지필드로 수정해아함 #공연무대사진
-        null=True,
-        blank=True,
-    )
+    profile = models.ImageField(upload_to="media/Post", null=True, blank=True)  # 포스터사진
 
     Created = models.DateTimeField(default=datetime.now)
     Updated = models.DateTimeField(auto_now=True)

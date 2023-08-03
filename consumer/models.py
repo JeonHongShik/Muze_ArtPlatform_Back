@@ -11,10 +11,7 @@ class Resume(models.Model):
     )
     call = models.CharField(max_length=254)  #
 
-    profile = models.URLField( #imagefield로 변경
-        null=True,
-        blank=True,
-    )
+    profile = models.ImageField(upload_to="media/Resume", null=True, blank=True)
 
     age = models.PositiveIntegerField(blank=False, null=False, default=17)  # 나이
 
