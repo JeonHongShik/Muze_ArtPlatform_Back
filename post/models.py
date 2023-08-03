@@ -9,25 +9,23 @@ from account.models import UserModel
 class PerformancePost(models.Model):
     author = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, related_name="Post_author"
-    )
+    )  # id값 들어감
 
+    agency = models.CharField(max_length=50, null=False, default="기관명")  # 주최기관
     title = models.CharField(max_length=200)  # 포스트 제목
-    call = models.CharField(max_length=50)  # 무대정보
-
-    info = models.TextField()  # 무대정보
+    call = models.CharField(max_length=50)  # 연락수단
+    info = models.TextField()  # 공연정보
     type = models.CharField(max_length=50)  # 공연종류
-    deadline = models.DateTimeField()  # 모집기한
-    date = models.DateTimeField()  # 공연일시
+    deadline = models.CharField(max_length=50)  # 모집기한
+    date = models.CharField(max_length=50)  # 공연일시
     location = models.CharField(max_length=300)  # 공연장소
-    profile = models.URLField(
+    profile = models.URLField(  # 이미지필드로 수정해아함 #공연무대사진
         null=True,
         blank=True,
     )
-    intro = models.TextField()  # 공연소개글
 
     Created = models.DateTimeField(default=datetime.now)
     Updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
-

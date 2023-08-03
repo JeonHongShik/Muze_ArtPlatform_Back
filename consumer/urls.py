@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import ConsumList, ConsumDetail
+from .views import ResumeDetail, ResumeList
 from django.urls import include
 from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
-    path("", ConsumList.as_view(), name="consum_list"),
-    path("<int:pk>/", ConsumDetail.as_view(), name="consum_detail"),
-    path("delete/<int:pk>/", ConsumDetail.as_view(), name="consum_delete"),
+    path("", ResumeList.as_view(), name="Resume_list"),
+    path("<int:pk>/", ResumeDetail.as_view(), name="Resume_detail"),
+    path("delete/<int:pk>/", ResumeDetail.as_view(), name="Resume_delete"),
 ]

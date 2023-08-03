@@ -10,14 +10,54 @@ from account.serializers import UserSerializer
 from rest_framework import viewsets
 from .models import UserModel
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 
 User = get_user_model()
 
 
-class UserListView(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+class UserListView(APIView):
+    def get(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(
+                serializer.data, safe=False, status=status.HTTP_201_CREATED
+            )
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        try:
+            user = User.objects.get(id=request.data["id"])
+        except User.DoesNotExist:
+            return JsonResponse(
+                {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        try:
+            user = User.objects.get(id=request.data["id"])
+        except User.DoesNotExist:
+            return JsonResponse(
+                {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        user.delete()
+        return JsonResponse(
+            {"message": "User successfully deleted"},
+            safe=False,
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
 
 class KakaoSignCallbackView(APIView):

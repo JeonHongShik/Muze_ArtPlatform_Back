@@ -2,14 +2,16 @@ from datetime import datetime
 from django.db import models
 from account.models import UserModel
 
+## Resume == consumer
 
-class Consum(models.Model):
+
+class Resume(models.Model):
     author = models.ForeignKey(
         UserModel, on_delete=models.CASCADE, related_name="consum_user"
     )
     call = models.CharField(max_length=254)  #
 
-    profile = models.URLField(
+    profile = models.URLField( #imagefield로 변경
         null=True,
         blank=True,
     )
