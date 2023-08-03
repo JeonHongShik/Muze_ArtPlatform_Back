@@ -32,7 +32,7 @@ class UserManager(BaseUserManager):
 
 class UserModel(AbstractBaseUser):
     id = models.CharField(unique=True, primary_key=True, max_length=20)
-    
+
     name = models.CharField(
         verbose_name="name",
         max_length=100,
