@@ -58,12 +58,15 @@ INSTALLED_APPS = [
     "account",
     "consumer",
     "post",
+    "bookmark",
     # 추가한 FRAMEWORK
     "rest_framework",
     "requests",
     # "rest_framework_simplejwt",
 ]
 
+
+## JWT 기능 현재 미추가
 # REST_FRAMEWORK = {
 #     "DEFAULT_AUTHENTICATION_CLASSES": (
 #         "rest_framework_simplejwt.authentication.JWTAuthentication",
