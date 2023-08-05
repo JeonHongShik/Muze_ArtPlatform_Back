@@ -1,20 +1,17 @@
 from datetime import datetime
 from django.db import models
-from account.models import UserModel
+from config import settings
 
 ## Resume == consumer
 
 
 class Resume(models.Model):
     author = models.ForeignKey(
-        UserModel, on_delete=models.CASCADE, related_name="consum_user"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="consum_user"
     )
     call = models.CharField(max_length=254)  #
 
-    profile = models.URLField( #imagefield로 변경
-        null=True,
-        blank=True,
-    )
+    profile = models.ImageField(upload_to="media/Resume", null=True, blank=True)
 
     age = models.PositiveIntegerField(blank=False, null=False, default=17)  # 나이
 

@@ -4,10 +4,14 @@ from rest_framework.views import APIView
 from rest_framework import status
 from .models import Resume
 from .serializers import ResumeSerializer
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.response import Response
 
 
 # 들어오는 요청을 처리하는 메서드를 담고 있는 클래스입니다.
 class ResumeList(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
     # GET 요청에 대한 응답을 처리하는 메서드입니다.
     def get(self, request):
         # 데이터베이스에서 모든 Resume 객체를 가져옵니다.
@@ -18,8 +22,12 @@ class ResumeList(APIView):
 
     # POST 요청에 대한 응답을 처리하는 메서드입니다.
     def post(self, request):
+        profile = request.FILES.get("profile")
+
+        data = request.data.copy()
+        data["profile"] = profile
         # 들어온 데이터를 ResumeSerializer를 사용하여 검증합니다.
-        serializer = ResumeSerializer(data=request.data)
+        serializer = ResumeSerializer(data=data)
         # 유효성 검증이 완료된 데이터를 저장합니다.
         if serializer.is_valid():
             serializer.save()

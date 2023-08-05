@@ -40,10 +40,9 @@ class UserModel(AbstractBaseUser):
         blank=False,
         default="name",
     )
-    profile = models.URLField(
-        null=False,
-        blank=False,
-    )
+    profile = models.ImageField(
+        upload_to="media/profile", null=True, blank=True
+    )  # 프로필 사진
 
     POST = "PT"
     CONSUMER = "CO"
@@ -52,7 +51,7 @@ class UserModel(AbstractBaseUser):
         (CONSUMER, "CONSUMER"),
     ]
 
-    Type = models.CharField(max_length=2, choices=USE_APP, default=POST)  # 사용자 종류
+    type = models.CharField(max_length=2, choices=USE_APP, default=POST)  # 사용자 종류
 
     create_at = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
     is_admin = models.BooleanField(default=False)

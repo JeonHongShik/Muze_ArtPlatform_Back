@@ -39,10 +39,13 @@ def get_scrt(setting, secret_file=secret_file):
 
 SECRET_KEY = get_scrt("SECRET_KEY")
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*", "0.0.0.0", "127.0.0.1"]
 
 
 # Application definition
@@ -62,6 +65,7 @@ INSTALLED_APPS = [
     # 추가한 FRAMEWORK
     "rest_framework",
     "requests",
+    "drf_yasg",
     # "rest_framework_simplejwt",
 ]
 
