@@ -18,6 +18,9 @@ class ResumeList(APIView):
 
     # POST 요청에 대한 응답을 처리하는 메서드입니다.
     def post(self, request):
+        profile = request.FILES.get("media/profile")
+        data = request.data.copy()
+        data["media/profile"] = profile
         # 들어온 데이터를 ResumeSerializer를 사용하여 검증합니다.
         serializer = ResumeSerializer(data=request.data)
         # 유효성 검증이 완료된 데이터를 저장합니다.
