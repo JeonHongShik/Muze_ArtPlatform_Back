@@ -26,7 +26,7 @@ from rest_framework.permissions import AllowAny
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Open API",
+        title="Muze APIs",
         default_version="v1",
         description="Muze API test",
     ),
@@ -40,7 +40,7 @@ urlpatterns = [
     path("account/", include("account.urls")),
     path("resume/", include("consumer.urls")),  ##Resume
     path("post/", include("post.urls")),
-    # path("bookmark/", include("bookmark.urls")), ##현재 개발중
+    # path("bookmark/", include("bookmark.urls")),  ##현재 개발중
     # swagger
     path(
         r"swagger(?P<format>\.json|\.yaml)",
