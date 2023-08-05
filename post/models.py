@@ -3,12 +3,12 @@
 
 from django.db import models
 from datetime import datetime
-from account.models import UserModel
+from config import settings
 
 
 class PerformancePost(models.Model):
     author = models.ForeignKey(
-        UserModel, on_delete=models.CASCADE, related_name="Post_author"
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="Post_author"
     )  # id값 들어감
 
     agency = models.CharField(max_length=50, null=False, default="기관명")  # 주최기관

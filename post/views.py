@@ -3,6 +3,7 @@ from .models import PerformancePost  # PerformancePost 모델 import
 from .serializers import PostSerializer  # PostSerializer import
 from rest_framework import status
 from django.http import JsonResponse  # JSON response import
+from rest_framework.response import Response
 
 
 # Create your views here.
@@ -23,7 +24,7 @@ class PostList(APIView):
         # serializer가 유효하다면 DB에 저장 후 성공 상태 코드 반환
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         # serializer가 유효하지 않다면 오류 메시지와 함께 실패 상태 코드 반환
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -58,7 +59,7 @@ class PostDetail(APIView):
         if serializer.is_valid():
             # serializer가 유효하다면 PerformancePost 객체를 업데이트하고 성공 상태 코드 반환
             serializer.save()
-            return JsonResponse(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         # serializer가 유효하지 않다면 오류 메시지와 함께 실패 상태 코드 반환
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -68,7 +69,7 @@ class PostDetail(APIView):
         post_user = self.get_object(pk)
         if not post_user:
             # 해당 게시물이 존재하지 않을 경우 404 에러 반환
-            return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
         # PerformancePost 객체를 삭제하고 성공 상태 코드 반환
         post_user.delete()
         return JsonResponse({}, status=status.HTTP_204_NO_CONTENT)

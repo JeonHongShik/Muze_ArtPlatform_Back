@@ -7,18 +7,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from account.serializers import UserSerializer
-from rest_framework import viewsets
 from .models import UserModel
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from django.conf import settings
-from django.core.files.storage import FileSystemStorage
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 User = get_user_model()
 
 
 class UserListView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
     @method_decorator(csrf_exempt, name="dispatch")
     def get(self, request):
         queryset = User.objects.all()
@@ -124,7 +123,7 @@ class KakaoSignCallbackView(APIView):
         except UserModel.DoesNotExist:
             # 사용자 정보를 찾을 수 없는 경우 새 사용자를 생성합니다.
             kakao_user = self._create_kakao_user(kakao_response)
-            kakao_user.create()  # create() : 객체 생성과 저장을 동시에함
+            kakao_user.save()  # 저장
             return JsonResponse({"id": kakao_user.id, "exist": False}, status=201)
             # 새 사용자는 응답에 ID와 "exist": False를 포함합니다.
 

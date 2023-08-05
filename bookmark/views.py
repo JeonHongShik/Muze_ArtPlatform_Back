@@ -33,7 +33,7 @@ class BookmarkDeleteView(generics.DestroyAPIView):
             else:
                 return Response(
                     {"detail": "Not authorized to delete this bookmark."},
-                    status=status.HTTP_401_UNAUTHORIZED,
+                    status=status.HTTP_403_FORBIDDEN,
                 )
         else:
             return Response(
