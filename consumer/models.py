@@ -13,6 +13,8 @@ class Resume(models.Model):
 
     profile = models.ImageField(upload_to="media/Resume", null=True, blank=True)
 
+    gender = models.CharField(max_length=50, default="무관")  # 성별
+
     age = models.PositiveIntegerField(blank=False, null=False, default=17)  # 나이
 
     education = models.CharField(max_length=254)  # 학력

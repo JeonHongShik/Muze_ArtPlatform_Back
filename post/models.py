@@ -19,6 +19,7 @@ class PerformancePost(models.Model):
         null=True,
         default="0",
     )  #
+    gender = models.CharField(max_length=50, default="무관")  # 성별
     info = models.TextField()  # 공연정보
     type = models.CharField(max_length=50)  # 공연종류
     deadline = models.CharField(max_length=50)  # 모집기한
