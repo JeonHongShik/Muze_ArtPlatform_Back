@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     # 추가한 FRAMEWORK
     "rest_framework",
     "requests",
+    "drf_yasg",
     # "rest_framework_simplejwt",
 ]
 

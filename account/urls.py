@@ -3,6 +3,8 @@ from rest_framework.routers import DefaultRouter
 from . import views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+
+
 urlpatterns = [
     path("user/", views.UserListView.as_view()),  # 유저 리스트 읽기
     # path("user/(?P<username>[\w.@+-]+)", views.UserListView.as_view()),  # 유저ID 읽기
@@ -16,3 +18,4 @@ urlpatterns = [
     # path("token/", TokenObtainPairView.as_view()),
     # path("token/refresh/", TokenRefreshView.as_view()),
 ]
+
