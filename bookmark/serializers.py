@@ -4,21 +4,17 @@ from post.models import PerformancePost
 from . import models
 
 
-class BookmarkSerializer(
-    serializers.ModelSerializer
-):  # BookmarkSerializer 클래스를 정의하고, DRF의 ModelSerializer를 상속받습니다
-    class Meta:  # Meta 클래스를 이용해 Serializer의 메타 데이터를 세팅합니다
-        model = User  # 연결할 모델은 User입니다
-        fields = ["username", "email", "date_joined"]  # User 모델의 필드들을 선택합니다
+class BookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "email", "date_joined"]
 
 
-class PerformancePostBookmarkSerializer(
-    serializers.ModelSerializer
-):  # PerformancePostBookmarkSerializer 클래스를 정의하고, DRF의 ModelSerializer를 상속받습니다
-    user = BookmarkSerializer(read_only=True)  # BookmarkSerializer를 사용하여 user 필드를 설명합니다
+class PerformancePostBookmarkSerializer(serializers.ModelSerializer):
+    user = BookmarkSerializer(read_only=True)
 
-    class Meta:  # Meta 클래스를 이용해 Serializer의 메타 데이터를 세팅합니다
-        model = models.Bookmark  # 연결할 모델은 Bookmark입니다
+    class Meta:
+        model = models.Bookmark
         fields = ["post", "user", "created_on"]  # Bookmark 모델의 필드들을 선택합니다
 
     def create(self, validated_data):  # 새북마크 인스턴스를 생성합니다
