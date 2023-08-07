@@ -29,7 +29,7 @@ class UserListView(APIView):
         profile = request.FILES.get("media/profile")
         data = request.data.copy()
         data["media/profile"] = profile
-        serializer = UserSerializer(data=request.data)
+        serializer = UserSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(
@@ -46,11 +46,11 @@ class UserListView(APIView):
                 {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        if "image" in request.FILES:
+        if "media/profile" in request.FILES:
             # 이미지를 처리하는 추가 로직
-            image = request.FILES["media/profile"]
+            image_profile = request.FILES["media/profile"]
             data = request.data.copy()
-            data["media/profile"] = image
+            data["media/profile"] = image_profile
             serializer = UserSerializer(user, data=data, partial=True)
         else:
             serializer = UserSerializer(user, data=request.data, partial=True)
@@ -82,7 +82,7 @@ class KakaoSignCallbackView(APIView):
     @staticmethod
     def _create_kakao_user(kakao_response):
         return User.objects.create(
-            id=kakao_response["id"],
+            kakao_id=kakao_response["id"],
             name=kakao_response["kakao_account"]["profile"]["nickname"],
             profile=kakao_response["kakao_account"]["profile"]["profile_image_url"],
         )
@@ -123,7 +123,7 @@ class KakaoSignCallbackView(APIView):
         except UserModel.DoesNotExist:
             # 사용자 정보를 찾을 수 없는 경우 새 사용자를 생성합니다.
             kakao_user = self._create_kakao_user(kakao_response)
-            kakao_user.save()  # 저장
+            kakao_user.create()  # 생성 및 저장
             return JsonResponse({"id": kakao_user.id, "exist": False}, status=201)
             # 새 사용자는 응답에 ID와 "exist": False를 포함합니다.
 
