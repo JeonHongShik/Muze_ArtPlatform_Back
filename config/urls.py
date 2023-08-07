@@ -39,7 +39,7 @@ urlpatterns = [
     path("account/", include("account.urls")),
     path("resume/", include("consumer.urls")),  ##Resume
     path("post/", include("post.urls")),
-    # path("bookmark/", include("bookmark.urls")),  ##현재 개발중
+    path("bookmark/", include("bookmark.urls")),  ##현재 개발중
     # swagger
     path(
         r"swagger(?P<format>\.json|\.yaml)",
