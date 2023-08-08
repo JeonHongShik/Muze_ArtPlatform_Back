@@ -21,8 +21,9 @@ class UserListView(APIView):
 
     @method_decorator(csrf_exempt, name="dispatch")
     def get(self, request):
-        queryset = User.objects.all()
-        serializer = UserSerializer(queryset, many=True)
+        id = request.GET.get("id", None)
+        queryset = User.objects.get(id=id)
+        serializer = UserSerializer(queryset)
         return JsonResponse(serializer.data, safe=False)
 
     @method_decorator(csrf_exempt, name="dispatch")
