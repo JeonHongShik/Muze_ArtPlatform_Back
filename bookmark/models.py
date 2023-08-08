@@ -20,3 +20,6 @@ class Bookmark(models.Model):
     # 북마크 생성 시간 저장
     # 기본값으로 timezone.now를 사용하여 현재 시각이 자동으로 저장
     created_on = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"{self.user}님이 {self.post} 게시물을 즐겨찾기했습니다."

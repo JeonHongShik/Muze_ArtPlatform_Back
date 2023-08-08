@@ -7,9 +7,11 @@ from config import settings
 
 
 class PerformancePost(models.Model):
+    id = models.AutoField(primary_key=True)
+
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="Post_author"
-    )  # id값 들어감
+    )  # 작성자
 
     agency = models.CharField(max_length=50, null=False, default="기관명")  # 주최기관
     title = models.CharField(max_length=200)  # 포스트 제목
